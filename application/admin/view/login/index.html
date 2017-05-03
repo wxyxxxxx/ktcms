@@ -68,20 +68,29 @@ $(function(){
         if(!e) e = window.event;//火狐中是 window.event
         if((e.keyCode || e.which) == 13){
             $("#w_sb").click();
+
         }
     }
 
    $("#w_sb").click(function(){
+        
+        //此处演示关闭
+        
+
         var account=$("#account").val();
         var pwd=$("#pwd").val();
         if (account=="") {layer.msg('账号不能为空',function(){});return false;}
         if (account=="") {layer.msg('密码不能为空',function(){});return false;}
+        layer.load(2);
         $.post("{:url('admin/login/do_login')}",{account:account,pwd:pwd},function(data){
             data=eval("("+data+")");
             if (data.code==1) {
                 location.href="{:url('admin/common/index')}";
             }else{
                 layer.msg(data.msg,function(){});
+                setTimeout(function(){
+                  layer.closeAll('loading');
+                }, 1000);
             }
         })
    }) 
