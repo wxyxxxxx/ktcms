@@ -67,6 +67,7 @@ $(function(){
         if (account=="") {layer.msg('账号不能为空',function(){});return false;}
         if (account=="") {layer.msg('密码不能为空',function(){});return false;}
         $.post("{:url('admin/login/do_login')}",{account:account,pwd:pwd},function(data){
+            data=eval("("+data+")");
             if (data.code==1) {
                 location.href="{:url('admin/common/index')}";
             }else{
