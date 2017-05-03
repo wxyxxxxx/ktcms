@@ -60,7 +60,17 @@
 </body>
 <script type="text/javascript">
 
+
+
 $(function(){
+
+    document.onkeydown = function(e){
+        if(!e) e = window.event;//火狐中是 window.event
+        if((e.keyCode || e.which) == 13){
+            $("#w_sb").click();
+        }
+    }
+
    $("#w_sb").click(function(){
         var account=$("#account").val();
         var pwd=$("#pwd").val();
