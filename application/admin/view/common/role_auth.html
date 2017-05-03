@@ -1,0 +1,145 @@
+{include file="../application/admin/view/common/common_head.html"}
+    <link href="/static/admin/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/uploadify/uploadify.css">
+    <link href="/static/admin/css/plugins/chosen/chosen.css" rel="stylesheet">
+        <link href="/static/admin/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+          <link href="/static/admin/css/plugins/colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/static/html5_uploadify/Huploadify.css"/>
+        <script src="/static/html5_uploadify/jquery.Huploadify.js"></script>
+<script src="/static/admin/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+        <script type="text/javascript" charset="utf-8" src="/static/ueditor/ueditor.config.js"></script>
+            <script type="text/javascript" charset="utf-8" src="/static/ueditor/ueditor.all.min.js"> </script>
+         <script type="text/javascript" charset="utf-8" src="/static/ueditor/lang/zh-cn/zh-cn.js"></script>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  ">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+
+                    <div class="ibox-content">
+                        <form method="post" id="form_s" class="form-horizontal">
+
+
+
+          <?php 
+          $operation=get_operation();
+          ?>
+
+
+             {volist name="auth" id="vo"}
+                            <div class="form-group">
+                                
+                                <label class="col-sm-2 control-label">{$vo.name}</label>
+
+                          
+                                <div class="col-sm-8">
+                                  
+
+                                {volist name="vo.child" id="n"}
+                                  <div class="form-group">
+                                  <label class="col-sm-2 control-label">{$n.name}</label>
+                                  <div class="col-sm-8">
+                                   <div class="checkbox-inline i-checks" style="margin-top:-4px;">
+                                      
+                                   <?php 
+                                       $c_op=$n['operation'];
+                                       $c_op=explode(",",rtrim($c_op,','));
+                                       $chose_arr=array();
+                                       $chose_arr=isset($chose_auth[$n['id']])?$chose_auth[$n['id']]:array();
+                                   ?>
+
+                                   {volist name="operation" id="op"}
+                                    <?php if(in_array($op['id'],$c_op)) { ?>
+                                    <label class="checkbox-inline i-checks"><input type="checkbox" name="{$n.id}[]" value="{$op.id}" <?php if(in_array($op['id'],$chose_arr)) {echo "checked";} ?>><i></i>{$op.name}</label>
+                                    <?php } ?>
+                                   {/volist}
+                                   </div>
+
+                                   </div>
+
+                                   </div>
+                                 {/volist}    
+                                </div>
+                               
+                            </div>
+                             <div class="hr-line-dashed"></div>
+            {/volist}
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-1">
+                                    <a class="btn btn-primary btn-block w_sb" href="javascript:void(0);">保存内容</a>
+                                    <!-- <a class="btn btn-white" href="{:url('admin/admin/game_no_list')}">返回列表</a>   -->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script type="text/javascript">
+  
+  $(function(){
+    $(".w_sb").click(function(){
+      var data=$("#form_s").serialize();
+      $.post("{:url('admin/common/save_role_auth')}?menu_id={$menu_id}&id={$id}",data,function(res){
+        res=eval("("+res+")");
+        if (res.code==1) {
+            
+            toastr.success(res.msg);
+        }else{
+            toastr.error(res.msg);return false;
+        }
+      })
+    })
+  })
+</script>
+
+    <script src="/static/admin/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/admin/js/content.min.js?v=1.0.0"></script>
+    <script src="/static/admin/js/plugins/iCheck/icheck.min.js"></script>
+
+    <script>
+        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+    </script>
+ 
+
+
+    <script>
+        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+    </script>
+
+    <script type="text/javascript">
+
+    $(function(){
+            var config = {
+                ".chosen-select": {},
+                ".chosen-select-deselect": {
+                    allow_single_deselect: !0
+                },
+                ".chosen-select-no-single": {
+                    disable_search_threshold: 10
+                },
+                ".chosen-select-no-results": {
+                    no_results_text: "Oops, nothing found!"
+                },
+                ".chosen-select-width": {
+                    width: "95%"
+                }
+            };
+            for (var selector in config) $(selector).chosen(config[selector]);
+    })
+    </script>
+
+
+
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+</html>

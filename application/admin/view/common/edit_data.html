@@ -1,0 +1,588 @@
+{include file="../application/admin/view/common/common_head.html"}
+    <link href="/static/admin/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/uploadify/uploadify.css">
+    <link href="/static/admin/css/plugins/chosen/chosen.css" rel="stylesheet">
+        <link href="/static/admin/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+          <link href="/static/admin/css/plugins/colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/static/html5_uploadify/Huploadify.css"/>
+        <script src="/static/html5_uploadify/jquery.Huploadify.js"></script>
+<script src="/static/admin/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+        <script type="text/javascript" charset="utf-8" src="/static/ueditor/ueditor.config.js"></script>
+            <script type="text/javascript" charset="utf-8" src="/static/ueditor/ueditor.all.min.js"> </script>
+         <script type="text/javascript" charset="utf-8" src="/static/ueditor/lang/zh-cn/zh-cn.js"></script>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  ">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+
+                    <div class="ibox-content">
+                        <form method="post" id="form_s" class="form-horizontal" >
+
+
+
+        
+
+             {volist name="fields" id="vo"}
+                            <div class="form-group">
+                            <?php 
+                              if(!isset($list[$vo['field']])){
+                                $list[$vo['field']]=$vo['default'];
+                                if($vo['edit_type']==9){
+                                   $list[$vo['field']]=time();
+                                 }
+                              } 
+                              if($vo['width']==''||$vo['width']==0){
+                                $vo['width']=4;
+                              }
+                              if(!$vo['remark']==''){
+                                $vo['remark']='#'.$vo['remark'].'#';
+                              }
+
+                              
+
+                            ?>
+                                <label class="col-sm-1 control-label">{$vo.name}</label>
+                                <div class="col-sm-{$vo.width}">
+                                    {switch name="vo.edit_type"}
+                                        {case value="1"}
+                                          <input name="{$vo.field}" value="{$list[$vo['field']]}" type="text" class="form-control"> 
+                                        {/case}
+                                        {case value="17"}
+                                          <input name="{$vo.field}" value="{$list[$vo['field']]}" type="password" class="form-control">
+                                        {/case}
+                                        {case value="2"}
+                                          <input name="{$vo.field}" value="{$list[$vo['field']]}" type="number" class="form-control">
+                                        {/case}
+                                        {case value="3"}
+                                        <textarea class="form-control" name="{$vo.field}">{$list[$vo['field']]}</textarea>
+                                        {/case}
+
+                                         {case value="4"}
+                                             <?php  
+                                                 $radio_arr=get_data_from($vo['data_from']);
+                                             ?>
+                                             {volist name="$radio_arr" id="rr"}
+                                             <div class="checkbox-inline i-checks">
+                                           
+                                                 <input type="radio" {eq name="$list[$vo['field']]" value="$rr['id']" }checked{/eq} id="inlineRadio{$vo.field}{$rr.id}" value="{$rr.id}" name="{$vo.field}" >
+                                                 <label for="inlineRadio{$vo.field}{$rr.id}"> {$rr.name} </label>
+                                             </div>
+
+                                              {/volist}
+                                        {/case}
+
+                                        {case value="5"}
+                                            <?php  
+                                                $data_arr=get_data_from($vo['data_from']);
+                                            ?>
+                                            {volist name="$data_arr" id="dd"}
+
+                                            <div class="checkbox-inline i-checks">
+                                                <?php 
+                                                    $checkbox=$list[$vo['field']];
+                                                    $checkbox=explode(",",rtrim($checkbox,','));
+                                                ?>
+                                                <label class="checkbox-inline i-checks"><input type="checkbox" name="{$vo.field}[]" value="{$dd.id}" <?php if(in_array($dd['id'],$checkbox)) {echo "checked";} ?> ><i></i>{$dd.name}</label>
+                                            </div>
+                                             {/volist}
+                                         {/case}
+
+                                         {case value="16"}
+                                             <?php  
+                                                 $data_arr=get_data_from($vo['data_from']);
+                                             ?>
+                                             {volist name="$data_arr" id="dd"}
+
+                                             <div class="checkbox-inline i-checks">
+                                                 <?php 
+                                                     $checkbox=$list[$vo['field']];
+                                                     $checkbox=explode(",",rtrim($checkbox,','));
+                                                 ?>
+                                                 <label class="checkbox-inline i-checks"><input type="checkbox" name="{$vo.field}[]" value="{$dd.id}" <?php if(in_array($dd['id'],$checkbox)) {echo "checked";} ?> ><i></i>{$dd.name}</label>
+                                             </div>
+                                              {/volist}
+                                          {/case}
+
+
+                                      
+
+                                        {case value="6"}
+                                            <?php 
+                                                $select=get_data_from($vo['data_from']);
+                                            ?>
+                                              <select name="{$vo.field}" class="form-control">
+                                              {volist name="$select" id="ss"}
+                                                <option value="{$ss.id}" {eq name="$list[$vo['field']]" value="$ss['id']" }selected{/eq}>{$ss.name}</option>
+                                              {/volist}
+                                              </select>
+                                        {/case}
+
+                                        {case value="7"}
+                                            <?php 
+                                                $select=get_data_from($vo['data_from']);
+                                                $select_arr=$list[$vo['field']];
+                                                $select_arr=explode(",",rtrim($select_arr,','));
+                                            ?>
+
+
+                                        
+                                            <select name="{$vo.field}[]" data-placeholder="选择..." multiple class="chosen-select form-control" tabindex="2">
+                                                <option value="0">请选择</option>
+                                                {volist name="$select" id="ss"}
+                                                  <option value="{$ss.id}" hassubinfo="true" <?php if(in_array($ss['id'],$select_arr)) {echo "selected";} ?> >{$ss.name}</option>
+                                                {/volist}
+                                            </select>
+
+                                        {/case}
+                                        {case value="8"}
+                                            <?php 
+                                                $select=get_data_from($vo['data_from']);
+                                            ?>
+                                            <select name="{$vo.field}" data-placeholder="选择..." class="chosen-select form-control" tabindex="2">
+                                                <option value="0">请选择</option>
+                                            
+                                     
+                                                {volist name="$select" id="ss"}
+                                                  <option value="{$ss.id}" hassubinfo="true" {eq name="$list[$vo['field']]" value="$ss['id']" }selected{/eq}>{$ss.name}</option>
+                                                {/volist}
+                                            </select>
+
+                                        {/case}
+
+                                        
+
+
+                                        {case value="9"}
+                                          
+                                            <input name="{$vo.field}" class="form-control layer-date" value="{$list[$vo['field']]|date='Y-m-d H:i:s',###}" placeholder="YYYY-MM-DD hh:mm:ss" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                            <label class="laydate-icon"></label>
+
+                                        {/case}
+
+                
+
+
+                                        {case value="10"}
+                                          
+                                           <div id="up_file_{$vo.field}"></div>
+                                           <input type="hidden" id="up_file_in_{$vo.field}" name="{$vo.field}" value="{$list[$vo['field']]}">
+                                           <div id="upfile_{$vo.field}">
+                                           <?php if($list[$vo['field']]=='') {
+
+                                           }else{
+                                           ?>
+                                           <a href="{$list[$vo['field']]}" target="_blank" id="upfile_{$vo.field}">{$list[$vo['field']]}</a><span class="w_del" onClick="del_file(this)">删除</span>
+                                           <?php
+                                           }
+                                           ?>
+                                           
+                                            
+                                           </div>
+
+                                           <script type="text/javascript">
+                                               
+                                               $(function(){
+                                                   var up = $("#up_file_{$vo.field}").Huploadify({
+                                                     auto:true,
+                                                     fileTypeExts:'*.*',
+                                                     multi:false,
+                                                     formData:{key:123456,key2:'vvvv'},
+                                                     fileSizeLimit:99999999999,
+                                                     showUploadedPercent:false,
+                                                     showUploadedSize:true,
+                                                     removeTimeout:10,
+                                                     uploader:"{:url('admin/common/uploadify')}",
+                                                     onUploadStart:function(file){
+                                                       console.log(file.name+'开始上传');
+                                                     },
+                                                     onInit:function(obj){
+                                                       console.log('初始化');
+                                                       console.log(obj);
+                                                     },
+                                                     onUploadComplete:function(file,msg){
+                                                               
+                                                      // $("#upfile_{$vo.field}").attr("href",msg)
+                                                      // $("#upfile_{$vo.field}").html(msg)
+                                                      // $("#up_file_in_{$vo.field}").val(msg)
+
+                                                      var str='<a href="'+msg+'" target="_blank" >'+msg+'</a><span class="w_del" onClick="del_file(this)">删除</span><br>';
+                                                      $("#upfile_{$vo.field}").html(str);
+
+                                                      
+                                                      $("#up_file_in_{$vo.field}").val(msg)
+                                                        console.log(msg);
+                                                       console.log(file.name+'上传完成');
+                                                     },
+                                                     onCancel:function(file){
+                                                       console.log(file.name+'删除成功');
+                                                     },
+                                                     onClearQueue:function(queueItemCount){
+                                                       console.log('有'+queueItemCount+'个文件被删除了');
+                                                     },
+                                                     onDestroy:function(){
+                                                       console.log('destroyed!');
+                                                     },
+                                                     onSelect:function(file){
+                                                       console.log(file.name+'加入上传队列');
+                                                     },
+                                                     onQueueComplete:function(queueData){
+                                                       console.log('队列中的文件全部上传完成',queueData);
+                                                     }
+                                                   });
+
+
+                                               })
+                                           </script>
+                                        {/case}
+
+
+
+                                        {case value="11"}
+                                          
+                                           <div id="up_img_{$vo.field}"></div>
+                                           <input type="hidden" id="up_img_in_{$vo.field}" name="{$vo.field}" value="{$list[$vo['field']]}">
+                                           <div id="upimg_{$vo.field}">
+                                           <?php if($list[$vo['field']]=='') {
+
+                                           }else{
+                                           ?>
+                                           <img style="max-height: 100px;" id="upimg_{$vo.field}" src="{$list[$vo['field']]}"><span class="w_del" onClick="del_img(this)">删除</span>
+                                           <?php
+                                           }
+                                           ?>
+                                             
+                                           </div>
+
+                                           <script type="text/javascript">
+                                               
+                                               $(function(){
+                                                   var up = $("#up_img_{$vo.field}").Huploadify({
+                                                     auto:true,
+                                                     fileTypeExts:'*.*',
+                                                     multi:false,
+                                                     formData:{key:123456,key2:'vvvv'},
+                                                     fileSizeLimit:99999999999,
+                                                     showUploadedPercent:false,
+                                                     showUploadedSize:true,
+                                                     removeTimeout:10,
+                                                     uploader:"{:url('admin/common/uploadify')}",
+                                                     onUploadStart:function(file){
+                                                       console.log(file.name+'开始上传');
+                                                     },
+                                                     onInit:function(obj){
+                                                       console.log('初始化');
+                                                       console.log(obj);
+                                                     },
+                                                     onUploadComplete:function(file,msg){
+                                                               
+                                                      // $("#upimg_{$vo.field}").attr("src",msg)
+                                                      // $("#up_img_in_{$vo.field}").val(msg)
+
+                                                      var str='<img src="'+msg+'" style="max-height:100px" /><span class="w_del" onClick="del_img(this)">删除</span>';
+                                                      $("#upimg_{$vo.field}").html(str);
+
+                                                      
+                                                      $("#up_img_in_{$vo.field}").val(msg)
+                                                        console.log(msg);
+                                                       console.log(file.name+'上传完成');
+                                                     },
+                                                     onCancel:function(file){
+                                                       console.log(file.name+'删除成功');
+                                                     },
+                                                     onClearQueue:function(queueItemCount){
+                                                       console.log('有'+queueItemCount+'个文件被删除了');
+                                                     },
+                                                     onDestroy:function(){
+                                                       console.log('destroyed!');
+                                                     },
+                                                     onSelect:function(file){
+                                                       console.log(file.name+'加入上传队列');
+                                                     },
+                                                     onQueueComplete:function(queueData){
+                                                       console.log('队列中的文件全部上传完成',queueData);
+                                                     }
+                                                   });
+
+
+                                               })
+                                           </script>
+                                        {/case}
+
+
+                                        {case value="12"}
+                                            
+                                            <?php $files=array_filter(explode(",",$list[$vo['field']])); ?>
+                                           <div id="up_files_{$vo.field}"></div>
+                                           <input type="hidden" id="up_files_in_{$vo.field}" name="{$vo.field}" value="{$list[$vo['field']]}">
+                                           <div id="upfiles_{$vo.field}">
+                                              {volist name="files" id="ff"}
+                                              <a href="{$ff}" target="_blank" id="upfile_{$vo.field}">{$ff}</a><span class="w_del" onClick="del_file(this)">删除</span>
+                                              {/volist}
+                                           </div>
+
+                                           <script type="text/javascript">
+                                               
+                                               $(function(){
+                                                   var up = $("#up_files_{$vo.field}").Huploadify({
+                                                     auto:true,
+                                                     fileTypeExts:'*.*',
+                                                     multi:true,
+                                                     formData:{key:123456,key2:'vvvv'},
+                                                     fileSizeLimit:99999999999,
+                                                     showUploadedPercent:false,
+                                                     showUploadedSize:true,
+                                                     removeTimeout:10,
+                                                     uploader:"{:url('admin/common/uploadify')}",
+                                                     onUploadStart:function(file){
+                                                       console.log(file.name+'开始上传');
+                                                     },
+                                                     onInit:function(obj){
+                                                       console.log('初始化');
+                                                       console.log(obj);
+                                                     },
+                                                     onUploadComplete:function(file,msg){
+                                                               
+                                                      var str='<a href="'+msg+'" target="_blank" >'+msg+'</a><span class="w_del" onClick="del_file(this)">删除</span><br>';
+                                                      $("#upfiles_{$vo.field}").append(str);
+
+                                                     
+                                                      $("#up_files_in_{$vo.field}").val(($("#up_files_in_{$vo.field}").val()+','+msg).replace(',,',","))
+                                                      console.log(msg);
+                                                      console.log(file.name+'上传完成');
+                                                     },
+                                                     onCancel:function(file){
+                                                       console.log(file.name+'删除成功');
+                                                     },
+                                                     onClearQueue:function(queueItemCount){
+                                                       console.log('有'+queueItemCount+'个文件被删除了');
+                                                     },
+                                                     onDestroy:function(){
+                                                       console.log('destroyed!');
+                                                     },
+                                                     onSelect:function(file){
+                                                       console.log(file.name+'加入上传队列');
+                                                     },
+                                                     onQueueComplete:function(queueData){
+                                                       console.log('队列中的文件全部上传完成',queueData);
+                                                     }
+                                                   });
+
+
+                                               })
+                                           </script>
+                                        {/case}
+
+
+                                        {case value="13"}
+                                             <?php $imgs=array_filter(explode(",",$list[$vo['field']])); ?>
+                                           <div id="up_imgs_{$vo.field}"></div>
+                                           <input type="hidden" id="up_imgs_in_{$vo.field}" name="{$vo.field}" value="{$list[$vo['field']]}">
+                                           <div id="upimgs_{$vo.field}">
+                                              {volist name="imgs" id="ff"}
+                                              
+                                              <img style="max-height: 100px;" id="upimg_{$vo.field}" src="{$ff}"><span class="w_del" onClick="del_img(this)">删除</span>
+                                              {/volist}
+                                            
+                                           </div>
+
+                                           <script type="text/javascript">
+                                               
+                                               $(function(){
+                                                   var up = $("#up_imgs_{$vo.field}").Huploadify({
+                                                     auto:true,
+                                                     fileTypeExts:'*.*',
+                                                     multi:true,
+                                                     formData:{key:123456,key2:'vvvv'},
+                                                     fileSizeLimit:99999999999,
+                                                     showUploadedPercent:false,
+                                                     showUploadedSize:true,
+                                                     removeTimeout:10,
+                                                     uploader:"{:url('admin/common/uploadify')}",
+                                                     onUploadStart:function(file){
+                                                       console.log(file.name+'开始上传');
+                                                     },
+                                                     onInit:function(obj){
+                                                       console.log('初始化');
+                                                       console.log(obj);
+                                                     },
+                                                     onUploadComplete:function(file,msg){
+                                                               
+                                                      
+                                                      var str='<img src="'+msg+'" style="max-height:100px" /><span class="w_del" onClick="del_img(this)">删除</span>';
+                                                      $("#upimgs_{$vo.field}").append(str);
+
+                                                     
+                                                      $("#up_imgs_in_{$vo.field}").val(($("#up_imgs_in_{$vo.field}").val()+','+msg).replace(',,',","))
+                                                      console.log(msg);
+                                                      console.log(file.name+'上传完成');
+                                                     },
+                                                     onCancel:function(file){
+                                                       console.log(file.name+'删除成功');
+                                                     },
+                                                     onClearQueue:function(queueItemCount){
+                                                       console.log('有'+queueItemCount+'个文件被删除了');
+                                                     },
+                                                     onDestroy:function(){
+                                                       console.log('destroyed!');
+                                                     },
+                                                     onSelect:function(file){
+                                                       console.log(file.name+'加入上传队列');
+                                                     },
+                                                     onQueueComplete:function(queueData){
+                                                       console.log('队列中的文件全部上传完成',queueData);
+                                                     }
+                                                   });
+
+
+                                               })
+                                           </script>
+                                        {/case}
+
+                                        {case value="14"}
+                                            <div class="input-group colorpicker-demo_{$vo.field}">
+                                                <input name="{$vo.field}" type="text" value="{$list[$vo['field']]}" class="form-control" />
+                                                <span class="input-group-addon"><i></i></span>
+                                            </div>
+
+                                            <script type="text/javascript">
+                                              $('.colorpicker-demo_{$vo.field}').colorpicker();
+                                            </script>
+                                          
+                                        {/case}
+                                        {case value="15"}
+                                            
+<script id="editor_{$vo.field}" type="text/plain" name="{$vo.field}" style="width:800px;height:500px;">{$list[$vo['field']]}</script>
+
+                                           <script type="text/javascript">
+                                           $(function(){
+                                               var ue = UE.getEditor("editor_{$vo.field}");
+
+                                                   ue.ready(function() {
+                                               
+
+                                             });
+                                           })
+                                           </script>
+
+                                        {/case}
+
+                                        {default /}
+                                          <input name="{$vo.field}" value="" type="text" class="form-control">
+                                    {/switch}
+                                     
+                                </div>
+                                <span class="help-block m-b-none" style="font-size: 8px;color: #777">{$vo.remark}</span>
+                            </div>
+            {/volist}
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-1">
+                                    <a class="btn btn-primary btn-block w_sb" href="javascript:void(0);">保存内容</a>
+                                    <!-- <a class="btn btn-white" href="{:url('admin/admin/game_no_list')}">返回列表</a>   -->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script type="text/javascript">
+  
+  $(function(){
+    $(".w_sb").click(function(){
+      var data=$("#form_s").serialize();
+      $.post("{:url('admin/common/do_edit_data')}?menu_id={$menu_id}&id={$id}",data,function(res){
+        res=eval("("+res+")");
+        if (res.code==1) {
+            
+            toastr.success(res.msg);
+        }else{
+            toastr.error(res.msg);return false;
+        }
+      })
+    })
+  })
+</script>
+
+    <script src="/static/admin/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/admin/js/content.min.js?v=1.0.0"></script>
+    <script src="/static/admin/js/plugins/iCheck/icheck.min.js"></script>
+
+    <script>
+        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+    </script>
+ 
+    <script src="/static/admin/js/plugins/chosen/chosen.jquery.js"></script>
+
+
+    <script src="/static/admin/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/static/admin/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+     <script src="/static/admin/js/plugins/layer/laydate/laydate.js"></script>
+
+
+    <script>
+        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+    </script>
+<script type="text/javascript">
+  
+  function del_img(a){
+    console.log(a);
+    var p=$(a).prev().attr("src");
+    var inp=$(a).parent().prev();
+    $(a).prev().remove();
+    $(a).remove();
+    var str=inp.val();
+    str=str.replace(p,"");
+    str=str.replace(',,',",");
+    inp.val(str);
+  }
+
+  function del_file(a){
+    console.log(a);
+    var p=$(a).prev().attr("href");
+    var inp=$(a).parent().prev();
+    $(a).prev().remove();
+    $(a).remove();
+    var str=inp.val();
+    str=str.replace(p,"");
+    str=str.replace(',,',",");
+    inp.val(str);
+  }
+</script>
+
+    <script type="text/javascript">
+
+    $(function(){
+            var config = {
+                ".chosen-select": {},
+                ".chosen-select-deselect": {
+                    allow_single_deselect: !0
+                },
+                ".chosen-select-no-single": {
+                    disable_search_threshold: 10
+                },
+                ".chosen-select-no-results": {
+                    no_results_text: "Oops, nothing found!"
+                },
+                ".chosen-select-width": {
+                    width: "95%"
+                }
+            };
+            for (var selector in config) $(selector).chosen(config[selector]);
+    })
+    </script>
+
+
+
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+</html>

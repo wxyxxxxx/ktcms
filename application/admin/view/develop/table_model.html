@@ -1,0 +1,183 @@
+{include file="../application/admin/view/common/common_head.html"}
+
+
+    <script src="/static/admin/js/jquery.min.js"></script>
+<body class="gray-bg">
+
+
+ 
+
+
+<div class="col-sm-12">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>基本</h5>
+
+        </div>
+        <div class="ibox-content" >
+
+            <table class="table table-bordered w_edit" style="font-size: 8px !important;">
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>名称</th>        
+                        <th>备注</th>        
+                        <th>输入类型</th>        
+                        <th>宽度</th>        
+                        <th>验证规则</th>        
+                        <th>数据源</th>             
+                        <th>排序</th>    
+                        <th>操作</th>        
+                    </tr>
+                </thead>
+                <tbody id="w_tbody">
+                {volist name="list" id="vo"}
+                    <tr>
+                    
+                        <td>
+                        <?php $select="select_".$vo['field'];  $$select=get_table_fields($model['table']);?>
+                          <select name="field">
+                          {volist name="$$select" id="ss"}
+                            <option value="{$ss.id}" {eq name="vo.field" value="$ss['id']"}selected{/eq}>{$ss.name}</option>
+                          {/volist}
+                          </select>
+                        </td>
+
+                        <td><input type="text" name="name" value="{$vo.name}"></td>
+                        <td><input type="text" name="remark" value="{$vo.remark}"></td>
+                        <td>
+                          <?php $select="select_".$vo['edit_type'];  $$select=get_fields_type();?>
+                        <select name="edit_type">
+                        {volist name="$$select" id="ss"}
+                          <option value="{$ss.id}" {eq name="vo.edit_type" value="$ss['id']"}selected{/eq}>{$ss.name}</option>
+                        {/volist}
+                        </select>
+                        </td>
+                        <td><input type="text" name="width" value="{$vo.width}"></td>
+
+                   
+                       
+                        <td><input type="text" name="rule" value="{$vo.rule}"></td>
+                        <td><input type="text" name="data_from" value="{$vo.data_from}"></td>
+                         <td><input type="text" name="sort" value="{$vo.sort}"></td>
+
+                        <td>
+                        <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group"> 
+                        <a cz="1" aid="{$vo.id}" onclick="javascript:w_save(this)" class="btn btn-primary btn-sm w_bc">保存</a>
+                        <a cz="1" aid="{$vo.id}" onclick="javascript:w_del(this)" class="btn btn-danger btn-sm w_bc">删除</a>
+                        </div>
+                        </td>
+
+                  
+                    </tr>
+                {/volist}
+                   
+                </tbody>
+                
+            </table>
+            <a href="javascript:;" id="w_add" class="btn btn-primary btn-sm">新增</a>
+            <a href="javascript:;" id="w_add" class="btn btn-primary btn-sm">提交</a>
+        </div>
+    </div>
+</div>
+  
+
+
+
+    <script src="/static/admin/js/bootstrap.min.js"></script>
+    <script src="/static/jeditable/jquery.jeditable.js"></script>
+    
+
+
+<script src="__PUBLIC__/static/admin/js/plugins/toastr/toastr.min.js"></script>
+ <link href="__PUBLIC__/static/admin/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+
+<script type="text/javascript">
+function w_save(e){
+    var td=e.parentNode.parentNode.parentNode;
+    var tdarr=td.getElementsByTagName('td');
+    var model_id="{$model_id}";
+    // del_ff(tdarr[1].firstChild);
+    console.log(tdarr)
+    // console.log(tdarr[1].getElementsByTagName('select')[0].value);return;
+    var cz=e.getAttribute("cz");
+    var aid=e.getAttribute("aid");
+    var field=tdarr[0].firstChild.value;
+    var name=tdarr[1].firstChild.value;
+    var type=tdarr[2].getElementsByTagName('select')[0].value;
+    var wdefault=tdarr[3].firstChild.value;
+    var remark=tdarr[4].firstChild.value;
+    var rule=tdarr[5].firstChild.value;
+    var sort=tdarr[6].firstChild.value;
+    console.log(tdarr[3].firstChild.value);
+    $.post("{:url('admin/develop/save_model_fields')}?id="+aid,{field:field,name:name,type:type,default:wdefault,remark:remark,rule:rule,sort:sort,model_id:model_id},function(res){
+        res=eval("("+res+")");
+        if (res.code==1) {
+            e.setAttribute("aid",res.data.aid);
+           
+            toastr.success(res.msg);
+        }else{
+            toastr.error(res.msg);return false;
+        }
+    })
+}
+
+
+function w_del(e){
+    var cz=e.getAttribute("cz");
+    var field=e.getAttribute("field");
+    if (cz==0) {
+        e.parentNode.parentNode.style.display="none";;
+        toastr.success("删除成功");return false;
+
+    }
+    $.post("{:url('admin/develop/del_field')}?table=",{field:field},function(res){
+        res=eval("("+res+")");
+        if (res.code==1) {
+            e.parentNode.parentNode.parentNode.style.display="none";;
+            toastr.success(res.msg);
+        }else{
+            toastr.error(res.msg);return false;
+        }
+    })
+}
+function del_ff(elem){
+    var elem_child = elem.childNodes;
+    for(var i=0; i<elem_child.length;i++){
+        if(elem_child[i].nodeName == "#text" && !/\s/.test(elem_child.nodeValue))
+        {
+            
+            elem.removeChild(elem_child[i])
+        }
+    }
+}
+    $(function(){
+
+        $("#w_add").click(function(){
+            var str=$("#w_tbody").children().eq(0).clone();
+            str.find(":input").each(function(i){
+                $(this).val("");
+             });
+
+            str.find("a").each(function(i){
+                $(this).attr("aid",'0');
+             });
+            console.log(str);
+            // var str='<tr><td><input type="text" name="" value=""></td><td><select><option value="varchar">varchar</option><option value="text">text</option><option value="int">int</option><option value="tinyint">tinyint</option><option value="float">float</option><option value="decimal">decimal</option><option value="double">double</option><option value="datetime">datetime</option><option value="timestamp">timestamp</option></select></td><td><input type="number" name="" value=""></td><td><input type="text" name="" value=""></td><td><input type="text" name="" value=""></td><td><input type="text" name="" value=""></td><td><div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group"><a cz="0" onclick="javascript:w_save(this)" class="btn btn-primary btn-sm">保存</a><a cz="0" field="" onclick="javascript:w_del(this)" class="btn btn-danger btn-sm w_bc">删除</a></div></td></tr>';
+            $("#w_tbody").append(str);
+
+        })
+
+    })
+
+</script>
+
+
+
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+</html>

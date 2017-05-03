@@ -1,0 +1,373 @@
+{include file="../application/admin/view/common/common_head.html"}
+<link href="/static/admin/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <script src="/static/admin/js/jquery.min.js?v=2.1.4"></script>
+<body class="gray-bg">
+  <div class="wrapper wrapper-content animated fadeInRight"> 
+   <div class="ibox float-e-margins"> 
+   </div> 
+
+   <div class="ibox float-e-margins"> 
+    <div class="ibox-title"> 
+     <h5></h5> 
+
+    </div> 
+    <div class="ibox-content"> 
+    <div class="btn-group hidden-xs"  role="group">
+    <a href="#modal-form"  class="btn btn-outline btn-sm btn-default " data-toggle="modal">新增数据表</a>
+    <a href="javascript:void(0);" opentype="1" _href="{:url('admin/common/edit_data')}?menu_id=3&id={$model_id}"  class="btn w_open btn-info btn-sm">模型设置</a>
+     <a href="javascript:void(0);" opentype="1" _href="{:url('admin/common/edit_data')}?menu_id=2&id={menu_id}" menu_id="{$menu_id}" class="btn btn-success btn-sm w_open">菜单设置</a>
+    <a href="{:url('admin/develop/table_desgin')}?table=kt_{$model.table}"  class="btn btn-info btn-sm">数据表设计</a>
+    <a href="{:url('admin/develop/model_fields')}?model_id={$model_id}"  class="btn btn-success btn-sm">字段设置</a>
+   
+    
+    </div>
+       <button onClick="javascript:location.reload()" type="button" style="float:right" class="btn btn-primary btn-sm">刷新页面</button>
+     <div class="row row-lg"> 
+      <div class="col-sm-12"> 
+       <!-- Example Events --> 
+       <div class="example-wrap"> 
+        <!-- <h4 class="example-title">事件</h4> --> 
+
+
+
+
+        <div class="example"> 
+  
+          <div class="col-sm-12 form-inline ">
+          <div style="text-align: center;">
+            <select class="form-control" id="w_search">
+              {volist name="fields" id="vo"}
+              {eq name="vo.is_search" value='1'}
+                <option value="{$vo.field}">{$vo.name}</option>
+              {/eq}
+              {/volist}
+            </select>
+             <input class="form-control" value="" type="text" id="w_str"> <button type="button" id="w_s" class=" btn btn-primary">搜索</button>
+            </div>
+          </div>
+     
+
+          <script type="text/javascript">
+          $(function(){
+           $("#w_s").click(function(){
+             var str=$("#w_str").val();
+             var field=$("#w_search").val();
+             location.href="{:url('admin/common/data_list')}?menu_id={$menu_id}&"+field+"="+str;
+           })
+          })
+          </script>
+
+      <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group"> 
+      {volist name="operation.top" id="op"}
+  
+
+      <a aid="0" menu_id="{$menu_id}" opentype="{$op.open_type}"  _href="{$op.url}" class="btn  btn-sm {$op.event_class} {$op.color_class}" >{$op.name}</a>
+       {/volist}
+    
+     </div>
+
+         <table class="table table-bordered w_edit" > 
+          <thead> 
+           <tr> 
+            <th>#</th> 
+            {volist name="fields" id="vo"}
+            <th>{$vo.name}</th> 
+            {/volist}
+            <th>操作</th> 
+           </tr>
+          </thead> 
+          <tbody>
+            {volist name='list' id="vo"} 
+
+           <tr class="gradeX">
+           <td aid="{$vo.id}" class="bs-checkbox"><input type="checkbox" name=""></td> 
+            {volist name="fields" id="n"}
+              <td>
+              {switch name="n.edit_type"}
+                  
+                  {case value="3"}
+                        {$vo[$n.field]|cut_str=###,200,0}    
+                  {/case}
+                  {case value="4"}      
+                    {$vo[$n.field]|get_list_show=###,$n['data_from']}                          
+                  {/case}
+                  {case value="5"}      
+                    {$vo[$n.field]|get_list_show=###,$n['data_from']}                          
+                  {/case}
+                  {case value="6"}      
+                    {$vo[$n.field]|get_list_show=###,$n['data_from']}                          
+                  {/case}
+                  {case value="7"}      
+                    {$vo[$n.field]|get_list_show=###,$n['data_from']}                          
+                  {/case}
+                  {case value="8"}      
+                    {$vo[$n.field]|get_list_show=###,$n['data_from']}                          
+                  {/case}
+                  {case value="9"}
+                    {$vo[$n.field]|date="Y-m-d H:i:s",###}
+                  {/case}
+                  {case value="10"}
+                    <a target="_blank" href="{$vo[$n.field]}">{$vo[$n.field]}</a>
+                  {/case}
+                  {case value="11"}
+                    <a target="_blank" href="{$vo[$n.field]}"><img style="width: 50px;height: 50px" src="{$vo[$n.field]}"></a>
+                  {/case}
+                  {case value="14"}
+                    <span style="background-color: {$vo[$n.field]};width: 30px;height: 30px;display: block;border-radius:25px;"></span>
+                  {/case}
+                 
+                  {default /}
+                  {$vo[$n.field]}
+              {/switch}
+              </td>
+            
+  
+          
+      
+             {/volist}
+        
+         <td>
+         <div class="btn-group hidden-xs"  role="group"> 
+        
+         {volist name="operation.list" id="op"}
+         <!-- <a cz="1" aid="{$vo.id}" href="{:url('admin/common/edit_data')}?model_id={$model['id']}&id={$vo.id}" class="btn btn-primary btn-sm w_bc">编辑</a> -->
+
+         <a  aid="{$vo.id}" menu_id="{$menu_id}" opentype="{$op.open_type}"  _href="{$op.url}" class="btn  btn-xs {$op.event_class} {$op.color_class}" >{$op.name}</a>
+          {/volist}
+         </div>
+       
+          
+         </td> 
+           
+         
+           </tr> 
+           {/volist} 
+          </tbody> 
+         </table> 
+
+         <?php if(count($list)>0) {?>
+        {$list->render()}
+        <?php }?>
+        </div> 
+       </div> 
+       <!-- End Example Events --> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+   <!-- End Panel Other --> 
+  </div>
+
+    <script src="/static/admin/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/admin/js/content.min.js?v=1.0.0"></script>
+    <script src="/static/admin/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    
+
+
+</body>
+
+
+<script type="text/javascript">
+  $(function(){
+    var width=document.body.clientWidth*0.8;
+    var height=document.body.clientHeight*0.9;
+    console.log(width+';'+height);
+
+    $(".w_open").click(function(){
+      var p=$(this);
+      var name=$(this).html();
+      var open_type=p.attr("opentype");
+      var menu_id=p.attr("menu_id");
+      var id=p.attr("aid");
+      var href=p.attr("_href");
+      href=href.replace(/{menu_id}/g, menu_id)
+      href=href.replace(/{id}/g, id)
+      if (open_type==1) {
+
+      }else if(open_type==2){
+        location.href=href;return false;
+      }else if (open_type==3) {
+
+          var ll=layer.confirm('您确定要执行该操作：'+name+'？', {
+            btn: ['确定','取消'] //按钮
+          }, function(){
+              layer.close(ll);
+              $.get(href,function(res){
+                  res=eval("("+res+")");
+                  if (res.code==1) { 
+                      toastr.success(res.msg);
+                      setTimeout(function(){location.reload()},1000)
+                  }else{
+                      toastr.error(res.msg);return false;
+                  }
+              })
+          }, function(){
+
+          });
+
+          return false;
+      }else{
+         location.href=href;return false;
+      }
+      layer.open({
+        type: 2,
+        title: p.html(),
+        shadeClose: true,
+        closeBtn: 1,
+        shade: false,
+        maxmin: true, //开启最大化最小化按钮
+       area: [width+'px', height+'px'],
+        content: href
+      });
+    })
+
+
+    $(".w_status").click(function(){
+      var p=$(this);
+      var menu_id=p.attr("menu_id");
+      var id=p.attr("aid");
+      var href=p.attr("_href");
+      href=href.replace(/{menu_id}/g, menu_id)
+      href=href.replace(/{id}/g, id) 
+      var ll=layer.confirm('您确定要启用这条记录？', {
+        btn: ['确定','取消'] //按钮
+      }, function(){
+          layer.close(ll);
+          $.get(href,function(res){
+              res=eval("("+res+")");
+              if (res.code==1) {
+                 
+                  toastr.success(res.msg);
+                  setTimeout(function(){location.reload()},1000)
+              }else{
+                  toastr.error(res.msg);return false;
+              }
+          })
+      }, function(){
+
+      });
+
+
+
+    })
+
+    $(".w_del").click(function(){
+      var p=$(this);
+      var id=$(this).attr("aid");
+      var ll=layer.confirm('您确定要删除这条记录？', {
+        btn: ['确定','取消'] //按钮
+      }, function(){
+          layer.close(ll);
+          $.get("{:url('admin/common/del_data')}?menu_id={$menu_id}&id="+id,function(res){
+              res=eval("("+res+")");
+              if (res.code==1) {
+                  p.parent().parent().parent().remove();
+                  toastr.success(res.msg);
+              }else{
+                  toastr.error(res.msg);return false;
+              }
+          })
+      }, function(){
+
+      });
+    })
+
+    $(".w_dels").click(function(){
+      var p=$(this);
+      var ids="";
+      $(".bs-checkbox").each(function(){
+        var p=$(this);
+        if(p.children("input").is(":checked")){
+          ids+=p.attr("aid")+',';
+        }
+
+      })
+      var ll=layer.confirm('您确定要删除这些记录？', {
+        btn: ['确定','取消'] //按钮
+      }, function(){
+          layer.close(ll);
+          $.get("{:url('admin/common/del_data')}?menu_id={$menu_id}&id="+ids,function(res){
+              res=eval("("+res+")");
+              if (res.code==1) {
+                  
+                  toastr.success(res.msg);
+                  setTimeout(function(){location.reload()}, 1000)
+              }else{
+                  toastr.error(res.msg);return false;
+              }
+          })
+      }, function(){
+
+      });
+    })
+
+
+    $("#w_sb").click(function(){
+      var id=$(this).attr("aid");
+      var name=$("input[name='table_name']").val();
+      var comment=$("input[name='table_comment']").val();
+      var table_engine=$("input[name='table_engine']").val();
+      if (name=="") {toastr.error( '请填写表名');return false;}
+      if (comment=="") {toastr.error( '请填写表注释');return false;}
+      if (table_engine=="") {toastr.error( '请选择表引擎');return false;}
+      $.post("{:url('admin/develop/table_edit')}?id="+id,{table:name,comment:comment,engine:table_engine},function(data){
+        data=eval("("+data+")")
+        if (data.code==1) {
+           toastr.success(data.msg);
+           $("input[name='table_name']").val('');
+           toastr.success(data.msg);return false;
+           // location.reload();
+           return false;
+        }else{
+          toastr.error(data.msg);return false;
+        }
+      })
+    })
+
+  })
+</script>
+
+
+<div id="modal-form" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 b-r">
+                        <h3 class="m-t-none m-b">新建数据表</h3>
+
+                     
+
+                            <div class="form-group">
+                                <label>表名：</label>
+                                <input type="text" name="table_name" placeholder="请输入表名" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>表名：</label>
+                                <input type="text" name="table_comment" placeholder="请输入表注释" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>引擎：</label>
+                                <div class="radio i-checks">
+                                    <label class="checkbox-inline"><input type="radio" checked="" value="InnoDb" name="table_engine"> <i></i> InnoDb</label>
+                                    <label class="checkbox-inline"><input type="radio"  value="MyISAM" name="table_engine"> <i></i> MyISAM</label>
+                                </div>
+                              
+                                
+                            </div>
+                            <div>
+                                <a class="btn btn-sm btn-primary pull-right m-t-n-xs" id="w_sb" aid="0">
+                                <strong>确定</strong>
+                                </a>
+                              
+                            </div>
+                    
+                    </div>
+         
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_bootstrap.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:06 GMT -->
+</html>

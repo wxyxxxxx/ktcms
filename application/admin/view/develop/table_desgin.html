@@ -1,0 +1,162 @@
+{include file="../application/admin/view/common/common_head.html"}
+
+
+    <script src="/static/admin/js/jquery.min.js"></script>
+<body class="gray-bg">
+
+
+ 
+
+
+<div class="col-sm-12">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>基本</h5>
+
+        </div>
+        <div class="ibox-content" >
+
+            <table class="table table-bordered w_edit" style="font-size: 12px !important;">
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>类型</th>
+                        <th>长度</th>
+                        <th>默认值</th>
+                        <th>注释</th>
+                        <th>主键</th>        
+                             
+                        <th>操作</th>        
+                    </tr>
+                </thead>
+                <tbody id="w_tbody">
+                {volist name="list" id="vo"}
+                    <tr>
+                     
+                        <td><input type="text" name="" value="{$vo.Field}"></td>
+                        <td>
+                        <select>    
+                            <option value="varchar" {eq name="vo.Type" value="varchar"}selected{/eq} >varchar</option>
+                            <option value="text" {eq name="vo.Type" value="text"}selected{/eq} >text</option>
+                            <option value="int" {eq name="vo.Type" value="int"}selected{/eq} >int</option>
+                            <option value="tinyint" {eq name="vo.Type" value="tinyint"}selected{/eq} >tinyint</option>
+                            <option value="float" {eq name="vo.Type" value="float"}selected{/eq} >float</option>
+                            <option value="decimal" {eq name="vo.Type" value="decimal"}selected{/eq} >decimal</option>
+                            <option value="double" {eq name="vo.Type" value="double"}selected{/eq} >double</option>
+                            <option value="datetime" {eq name="vo.Type" value="datetime"}selected{/eq} >datetime</option>
+                            <option value="timestamp" {eq name="vo.Type" value="timestamp"}selected{/eq} >timestamp</option>
+                        </select>
+                      
+                        </td>
+                        <td><input type="number" name="" value="{$vo.Length}"></td>
+                        <td><input type="text" name="" value="{$vo.Default}"></td>
+                        <td><input type="text" name="" value="{$vo.Comment}"></td>
+                        <td><input type="text" name="" value="{$vo.Key}"></td>
+                        <td>
+                        <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group"> 
+                        <a cz="1" field="{$vo.Field}" onclick="javascript:w_save(this)" class="btn btn-primary btn-sm w_bc">保存</a>
+                        <a cz="1" field="{$vo.Field}" onclick="javascript:w_del(this)" class="btn btn-danger btn-sm w_bc">删除</a>
+                        </div>
+                        </td>
+                    </tr>
+                {/volist}
+                   
+                </tbody>
+                
+            </table>
+            <a href="javascript:;" id="w_add" class="btn btn-primary btn-sm">新增</a>
+            <!-- <a href="javascript:;" id="w_add" class="btn btn-primary btn-sm">提交</a> -->
+            <a href="javascript:history.go(-1);"  class="btn btn-primary btn-sm">返回</a>
+        </div>
+    </div>
+</div>
+  
+
+
+
+    <script src="/static/admin/js/bootstrap.min.js"></script>
+    <script src="/static/jeditable/jquery.jeditable.js"></script>
+    
+
+
+<script src="__PUBLIC__/static/admin/js/plugins/toastr/toastr.min.js"></script>
+ <link href="__PUBLIC__/static/admin/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+
+<script type="text/javascript">
+function w_save(e){
+    var td=e.parentNode.parentNode.parentNode;
+    var tdarr=td.getElementsByTagName('td');
+    // del_ff(tdarr[1].firstChild);
+    console.log(tdarr)
+    // console.log(tdarr[1].getElementsByTagName('select')[0].value);return;
+    var cz=e.getAttribute("cz");
+    var old_field=e.getAttribute("field");
+    var field=tdarr[0].firstChild.value;
+    var type=tdarr[1].getElementsByTagName('select')[0].value;
+    var length=tdarr[2].firstChild.value;
+    var w_default=tdarr[3].firstChild.value;
+    var comment=tdarr[4].firstChild.value;
+    var key=tdarr[5].firstChild.value;
+    console.log(tdarr[3].firstChild.value);
+    $.post("{:url('admin/develop/save_field')}?table={$table}",{cz:cz,field:field,old_field:old_field,type:type,length:length,default:w_default,comment:comment,key:key},function(res){
+        res=eval("("+res+")");
+        if (res.code==1) {
+            e.setAttribute("field",field);
+            e.setAttribute("cz",1);
+            toastr.success(res.msg);
+        }else{
+            toastr.error(res.msg);return false;
+        }
+    })
+}
+
+
+function w_del(e){
+    var cz=e.getAttribute("cz");
+    var field=e.getAttribute("field");
+    if (cz==0) {
+        e.parentNode.parentNode.style.display="none";;
+        toastr.success("删除成功");return false;
+
+    }
+    $.post("{:url('admin/develop/del_field')}?table={$table}",{field:field},function(res){
+        res=eval("("+res+")");
+        if (res.code==1) {
+            e.parentNode.parentNode.parentNode.style.display="none";;
+            toastr.success(res.msg);
+        }else{
+            toastr.error(res.msg);return false;
+        }
+    })
+}
+function del_ff(elem){
+    var elem_child = elem.childNodes;
+    for(var i=0; i<elem_child.length;i++){
+        if(elem_child[i].nodeName == "#text" && !/\s/.test(elem_child.nodeValue))
+        {
+            
+            elem.removeChild(elem_child[i])
+        }
+    }
+}
+    $(function(){
+
+        $("#w_add").click(function(){
+            var str='<tr><td><input type="text" name="" value=""></td><td><select><option value="varchar">varchar</option><option value="text">text</option><option value="int">int</option><option value="tinyint">tinyint</option><option value="float">float</option><option value="decimal">decimal</option><option value="double">double</option><option value="datetime">datetime</option><option value="timestamp">timestamp</option></select></td><td><input type="number" name="" value=""></td><td><input type="text" name="" value=""></td><td><input type="text" name="" value=""></td><td><input type="text" name="" value=""></td><td><div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group"><a cz="0" onclick="javascript:w_save(this)" class="btn btn-primary btn-sm">保存</a><a cz="0" field="" onclick="javascript:w_del(this)" class="btn btn-danger btn-sm w_bc">删除</a></div></td></tr>';
+            $("#w_tbody").append(str);
+
+        })
+
+    })
+
+</script>
+
+
+
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+</html>

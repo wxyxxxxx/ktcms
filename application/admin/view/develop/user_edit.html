@@ -1,0 +1,93 @@
+{include file="../application/admin/view/common/common_head.html"}
+    <link href="/static/admin/css/plugins/iCheck/custom.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/static/uploadify/uploadify.css">
+    <link href="/static/admin/css/plugins/chosen/chosen.css" rel="stylesheet">
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+
+                    <div class="ibox-content">
+                        <form method="post"  class="form-horizontal" action="{:url('admin/admin/do_edit_data')}?tb={$tb}&id={$id}">
+
+
+
+        
+
+             
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">昵称</label>
+                                <div class="col-sm-10">
+                                    <input name="nickname" value="{$list.nickname}" type="text" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">账户余额</label>
+                                <div class="col-sm-10">
+                                    <input name="money" value="{$list.money}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            
+                            
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit">保存内容</button>
+                                    <a class="btn btn-white" href="{:url('admin/admin/game_no_list')}">返回列表</a>  
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/static/admin/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/static/admin/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/admin/js/content.min.js?v=1.0.0"></script>
+    <script src="/static/admin/js/plugins/iCheck/icheck.min.js"></script>
+
+    <script>
+        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+    </script>
+ 
+    <script src="/static/admin/js/plugins/chosen/chosen.jquery.js"></script>
+
+
+
+
+
+    <script type="text/javascript">
+
+    $(function(){
+            var config = {
+                ".chosen-select": {},
+                ".chosen-select-deselect": {
+                    allow_single_deselect: !0
+                },
+                ".chosen-select-no-single": {
+                    disable_search_threshold: 10
+                },
+                ".chosen-select-no-results": {
+                    no_results_text: "Oops, nothing found!"
+                },
+                ".chosen-select-width": {
+                    width: "95%"
+                }
+            };
+            for (var selector in config) $(selector).chosen(config[selector]);
+    })
+    </script>
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+</html>

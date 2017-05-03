@@ -1,0 +1,210 @@
+{include file="../application/admin/view/common/common_head.html"}
+    <link href="/static/admin/css/plugins/iCheck/custom.css" rel="stylesheet">
+
+
+ 
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  ">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+
+                    <div class="ibox-content">
+                        <form method="post" id="form_s" class="form-horizontal" action="">
+
+
+
+        
+
+             {volist name="fields" id="vo"}
+                            <div class="form-group">
+                            <?php 
+                              if(!isset($list[$vo['field']])){
+                                $list[$vo['field']]=$vo['default'];
+                                if($vo['edit_type']==9){
+                                   $list[$vo['field']]=time();
+                                 }
+                              } 
+                              if($vo['width']==''||$vo['width']==0){
+                                $vo['width']=4;
+                              }
+                              if(!$vo['remark']==''){
+                                $vo['remark']='#'.$vo['remark'].'#';
+                              }
+
+                              
+
+                            ?>
+                                <label class="col-sm-2 control-label">{$vo.name}</label>
+                                <div class="col-sm-8">
+                                    {switch name="vo.edit_type"}
+                                        {case value="1"}
+                                        <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]}</label>
+                                         
+                                        {/case}
+                                        {case value="2"}
+                                         <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]}</label>
+                                        {/case}
+                                        {case value="3"}
+                                       <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]}</label>
+                                        {/case}
+
+                                         {case value="4"}
+                                           
+                                             <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]|get_list_show=###,$vo['data_from']}</label>
+
+                                             
+                                        {/case}
+
+                                        {case value="5"}
+                                           <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]|get_list_show=###,$vo['data_from']}</label>
+                                         {/case}
+
+                                         {case value="16"}
+                                           <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]|get_list_show=###,$vo['data_from']}</label>
+                                          {/case}
+
+
+                                      
+
+                                        {case value="6"}
+                                          <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]|get_list_show=###,$vo['data_from']}</label>
+                                        {/case}
+
+                                        {case value="7"}
+                                          <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]|get_list_show=###,$vo['data_from']}</label>
+
+                                        {/case}
+                                        {case value="8"}
+                                          <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]|get_list_show=###,$vo['data_from']}</label>
+
+                                        {/case}
+
+                                        
+
+
+                                        {case value="9"}
+                                         <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]|date='Y-m-d H:i:s',###}</label>
+                                          
+
+                                        {/case}
+
+                
+
+
+                                        {case value="10"}
+                                          
+                                       
+                                           <div id="upfile_{$vo.field}">
+                                           <?php if($list[$vo['field']]=='') {
+
+                                           }else{
+                                           ?>
+                                           <a href="{$list[$vo['field']]}" target="_blank" id="upfile_{$vo.field}">{$list[$vo['field']]}</a>
+                                           <?php
+                                           }
+                                           ?>
+                                           
+                                            
+                                           </div>
+
+                                        {/case}
+
+
+
+                                        {case value="11"}
+                                          
+                                        
+                                           <div id="upimg_{$vo.field}">
+                                           <?php if($list[$vo['field']]=='') {
+
+                                           }else{
+                                           ?>
+                                           <img style="max-height: 100px;" id="upimg_{$vo.field}" src="{$list[$vo['field']]}">
+                                           <?php
+                                           }
+                                           ?>
+                                             
+                                           </div>
+
+                                         
+                                        {/case}
+
+
+                                        {case value="12"}
+                                            
+                                            <?php $files=array_filter(explode(",",$list[$vo['field']])); ?>
+                                          
+                                           <div id="upfiles_{$vo.field}">
+                                              {volist name="files" id="ff"}
+                                              <a href="{$ff}" target="_blank" id="upfile_{$vo.field}">{$ff}</a>
+                                              {/volist}
+                                           </div>
+
+                                        {/case}
+
+
+                                        {case value="13"}
+                                             <?php $imgs=array_filter(explode(",",$list[$vo['field']])); ?>
+                                         
+                                           <div id="upimgs_{$vo.field}">
+                                              {volist name="imgs" id="ff"}
+                                              
+                                              <img style="max-height: 100px;" id="upimg_{$vo.field}" src="{$ff}">
+                                              {/volist}
+                                            
+                                           </div>
+
+                                         
+                                        {/case}
+
+                                        {case value="14"}
+                                            
+                                        <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]}</label>
+                                            
+                                          
+                                        {/case}
+                                        {case value="15"}
+                                            
+                                         <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]|htmlspecialchars_decode=###}</label>
+
+
+
+                                        {/case}
+
+                                        {default /}
+                                           <label class="col-sm-8 control-label" style="text-align: left">{$list[$vo['field']]}</label>
+                                    {/switch}
+                                     
+                                </div>
+                                <span class="help-block m-b-none" style="font-size: 8px;color: #777">{$vo.remark}</span>
+                            </div>
+            {/volist}
+                       
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="/static/admin/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/admin/js/content.min.js?v=1.0.0"></script>
+
+     <script src="/static/admin/js/plugins/layer/laydate/laydate.js"></script>
+
+
+
+
+
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+</html>

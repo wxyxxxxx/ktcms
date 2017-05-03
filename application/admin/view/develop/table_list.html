@@ -1,0 +1,271 @@
+{include file="../application/admin/view/common/common_head.html"}
+  <link href="__PUBLIC__/static/admin/css/plugins/iCheck/custom.css" rel="stylesheet">
+
+<body class="gray-bg">
+  <div class="wrapper wrapper-content animated fadeInRight"> 
+   <div class="ibox float-e-margins"> 
+   </div> 
+
+   <div class="ibox float-e-margins"> 
+    <div class="ibox-title"> 
+     <h5></h5> 
+
+    </div> 
+    <div class="ibox-content"> 
+       <button onClick="javascript:location.reload()" type="button" style="float:right" class="btn btn-primary btn-sm">刷新页面</button>
+     <div class="row row-lg"> 
+      <div class="col-sm-12"> 
+       <!-- Example Events --> 
+       <div class="example-wrap"> 
+        <!-- <h4 class="example-title">事件</h4> --> 
+        <div class="example"> 
+
+         <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group"> 
+          <a href="#modal-form"  class="btn btn-outline btn-default " data-toggle="modal">新增</a> 
+          
+          <a href="javascript:;" id="w_del_all"  class="btn btn-outline btn-default">删除</a> 
+         </div> 
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>表名</th>
+                    <th>表注释</th>
+                    <th>表引擎</th>
+                    <th>创建时间</th>
+                    
+                    
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="vo"}
+                <tr>
+                    <td style="width: 10%">{$i}</td>
+                    <td style="width: 15%"><span class="line">{$vo['Name']}</span>
+                    <td style="width: 10%">{$vo['Comment']}</td>
+                    <td style="width: 10%">{$vo['Engine']}</td>
+                    <td style="width: 15%">{$vo['Create_time']}</td>
+                   
+                    </td>
+                    <!-- <td>10</td> -->
+                    <td style="width: 20%">
+                      <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group"> 
+                       <a href="javascript:;"  aid="{$vo['Name']}"  class="btn btn-outline btn-default btn-sm w_desgin"> 设计表 </a> 
+                       <a href="javascript:;"  aid="{$vo['Name']}"  class="btn btn-outline btn-default btn-sm w_data"> 表数据 </a> 
+                       <a href="{:url('admin/develop/table_model')}?table={$vo['Name']}"   class="btn btn-outline btn-default btn-sm"> 模型 </a>
+
+                       <a href="javascript:;" aid="{$vo['Name']}"  class="btn btn-outline btn-default btn-sm w_del">删除</a> 
+                      </div> 
+                    </td>
+                </tr>
+          {/volist}
+
+               
+            </tbody>
+        </table>
+     
+        </div> 
+       </div> 
+       <!-- End Example Events --> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+   <!-- End Panel Other --> 
+  </div>
+
+
+
+
+
+
+
+    <script src="__PUBLIC__/static/admin/js/jquery.min.js"></script>
+    <script src="__PUBLIC__/static/admin/js/bootstrap.min.js"></script>
+    <script src="__PUBLIC__/static/admin/js/content.min.js"></script>
+
+
+
+
+ 
+
+
+</body>
+
+
+
+<script src="__PUBLIC__/static/admin/js/plugins/iCheck/icheck.min.js"></script>
+
+<script src="__PUBLIC__/static/admin/js/plugins/toastr/toastr.min.js"></script>
+ <link href="__PUBLIC__/static/admin/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+
+<script>
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+    });
+</script>
+
+
+
+
+
+<div id="modal-form" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 b-r">
+                        <h3 class="m-t-none m-b">新建数据表</h3>
+
+                     
+
+                            <div class="form-group">
+                                <label>表名：</label>
+                                <input type="text" name="table_name" placeholder="请输入表名" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>表名：</label>
+                                <input type="text" name="table_comment" placeholder="请输入表注释" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>引擎：</label>
+                                <div class="radio i-checks">
+                                    <label class="checkbox-inline"><input type="radio" checked="" value="InnoDb" name="table_engine"> <i></i> InnoDb</label>
+                                    <label class="checkbox-inline"><input type="radio"  value="MyISAM" name="table_engine"> <i></i> MyISAM</label>
+                                </div>
+                              
+                                
+                            </div>
+                            <div>
+                                <a class="btn btn-sm btn-primary pull-right m-t-n-xs" id="w_sb" aid="0">
+                                <strong>确定</strong>
+                                </a>
+                              
+                            </div>
+                    
+                    </div>
+         
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+$(function(){
+
+  var width=document.body.clientWidth*0.8;
+  var height=document.body.clientHeight*0.9;
+  console.log(width+';'+height);
+
+
+  toastr.options = {
+    "positionClass": "toast-top-full-width",
+  }
+  $("#w_sb").click(function(){
+    var id=$(this).attr("aid");
+    var name=$("input[name='table_name']").val();
+    var comment=$("input[name='table_comment']").val();
+    var table_engine=$("input[name='table_engine']").val();
+    if (name=="") {toastr.error( '请填写表名');return false;}
+    if (comment=="") {toastr.error( '请填写表注释');return false;}
+    if (table_engine=="") {toastr.error( '请选择表引擎');return false;}
+    $.post("{:url('admin/develop/table_edit')}?id="+id,{table:name,comment:comment,engine:table_engine},function(data){
+      data=eval("("+data+")")
+      if (data.code==1) {
+         toastr.success(data.msg);
+         $("input[name='table_name']").val('');
+         location.reload();
+         return false;
+      }else{
+        toastr.error(data.msg);return false;
+      }
+    })
+  })
+
+
+  $(".w_desgin").click(function(){
+    var table=$(this).attr("aid");
+    layer.open({
+      type: 2,
+      title: '设计表-'+table,
+      shadeClose: true,
+      shade: false,
+      maxmin: true, //开启最大化最小化按钮
+     area: [width+'px', height+'px'],
+      content: "{:url('admin/develop/table_desgin')}?table="+table
+    });
+
+  })
+
+  $(".w_data").click(function(){
+    var table=$(this).attr("aid");
+    layer.open({
+      type: 2,
+      title: '表数据-'+table,
+      shadeClose: true,
+      shade: false,
+      maxmin: true, //开启最大化最小化按钮
+     area: [width+'px', height+'px'],
+      content: "{:url('admin/develop/table_data')}?table="+table
+    });
+
+  })
+
+  $(".w_del").click(function(){
+    var aid=$(this).attr("aid");
+    var r=confirm("您确定要删除这条数据吗?")
+    if (r==true)
+      {
+        $.post("{:url('admin/develop/table_delete')}",{table:aid},function(data){
+          data=eval("("+data+")")
+          if (data.code==1) {
+             toastr.success(data.msg);
+             location.reload();
+             return false;
+          }else{
+            toastr.error(data.msg);return false;
+          }
+        })
+        return true;
+      
+      }
+    else
+      {
+        return false;
+      }
+  })
+  $("#w_del_all").click(function(){
+    var r=confirm("您确定要删除多条数据吗?")
+    if (r==true)
+      {
+   
+      
+      }
+    else
+      {
+        return false;
+      }
+    var ids="";
+    $(".bs-checkbox").each(function(){
+      var p=$(this);
+      if(p.children("input").is(":checked")){
+        ids+=p.next().html()+',';
+      }
+
+    })
+    location.href="{:url('admin/develop/delete_all_data')}?ids="+ids
+  })
+})
+</script>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_bootstrap.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:06 GMT -->
+</html>

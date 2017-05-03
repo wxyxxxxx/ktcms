@@ -1,0 +1,437 @@
+{include file="../application/admin/view/admin/common_head.html"}
+    <link href="/static/admin/css/plugins/iCheck/custom.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/static/uploadify/uploadify.css">
+    <link href="/static/admin/css/plugins/chosen/chosen.css" rel="stylesheet">
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+
+                    <div class="ibox-content">
+                        <form method="post"  class="form-horizontal" action="{:url('admin/admin/do_edit_data')}?tb={$tb}&id={$id}">
+
+
+
+        
+
+             
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">网站标题</label>
+                                <div class="col-sm-10">
+                                    <input name="title" value="{$list.title}" type="text" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">一级返利</label>
+                                <div class="col-sm-10">
+                                    <input name="a_rate" value="{$list.a_rate}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">二级返利</label>
+                                <div class="col-sm-10">
+                                    <input name="b_rate" value="{$list.b_rate}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">三级返利</label>
+                                <div class="col-sm-10">
+                                    <input name="c_rate" value="{$list.c_rate}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                    
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">押大小一级返利</label>
+                                <div class="col-sm-10">
+                                    <input name="aa_rate" value="{$list.aa_rate}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">押大小二级返利</label>
+                                <div class="col-sm-10">
+                                    <input name="bb_rate" value="{$list.bb_rate}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">押大小三级返利</label>
+                                <div class="col-sm-10">
+                                    <input name="cc_rate" value="{$list.cc_rate}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信域名</label>
+                                <div class="col-sm-10">
+                                    <input name="wx_host" value="{$list.wx_host}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">推广域名</label>
+                                <div class="col-sm-10">
+                                    <input name="tg_host" value="{$list.tg_host}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">提现费率</label>
+                                <div class="col-sm-10">
+                                    <input name="tx_rate" value="{$list.tx_rate}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">提现审核金额</label>
+                                <div class="col-sm-10">
+                                    <input name="tx_check_money" value="{$list.tx_check_money}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+  <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信付款appid</label>
+                                <div class="col-sm-10">
+                                    <input name="wx_appid" value="{$list.wx_appid}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信付款appsecret</label>
+                                <div class="col-sm-10">
+                                    <input name="wx_appsecret" value="{$list.wx_appsecret}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信商户付款mchid</label>
+                                <div class="col-sm-10">
+                                    <input name="wx_mchid" value="{$list.wx_mchid}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信商户付款privatekey</label>
+                                <div class="col-sm-10">
+                                    <input name="wx_privatekey" value="{$list.wx_privatekey}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信商户付款apiclient_cert证书</label>
+                                                       
+                                                        <div class="col-sm-10">
+                                                            <div id="queue"></div>
+                                <input id="file_upload4"  type="file" multiple="true">
+                                <div id="w_img4"><a href="{$list.wx_sslcert_path}">{$list.wx_sslcert_path}</a></div>
+                                <input type="hidden" id="w_img_input4" name="wx_sslcert_path" value="{$list.wx_sslcert_path}"/>
+                                                        </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信商户付款apiclient_key证书</label>
+                                                       
+                              <div class="col-sm-10">
+                                   <div id="queue"></div>
+                                <input id="file_upload5"  type="file" multiple="true">
+                                <div id="w_img5"><a href="{$list.wx_sslkey_path}">{$list.wx_sslkey_path}</a></div>
+                                <input type="hidden" id="w_img_input5" name="wx_sslkey_path" value="{$list.wx_sslkey_path}"/>
+                             </div>
+                            </div>
+
+  <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信收款appid</label>
+                                <div class="col-sm-10">
+                                    <input name="sh_appid" value="{$list.sh_appid}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信收款appsecret</label>
+                                <div class="col-sm-10">
+                                    <input name="sh_appsecret" value="{$list.sh_appsecret}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信商户收款mchid</label>
+                                <div class="col-sm-10">
+                                    <input name="sh_mchid" value="{$list.sh_mchid}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信商户收款privatekey</label>
+                                <div class="col-sm-10">
+                                    <input name="sh_key" value="{$list.sh_key}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信商户收款apiclient_cert证书</label>
+                                                       
+                                                        <div class="col-sm-10">
+                                                            <div id="queue"></div>
+                                <input id="file_upload2"  type="file" multiple="true">
+                                <div id="w_img2"><a href="{$list.sh_sslcert_path}">{$list.sh_sslcert_path}</a></div>
+                                <input type="hidden" id="w_img_input2" name="sh_sslcert_path" value="{$list.sh_sslcert_path}"/>
+                                                        </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">微信商户收款apiclient_key证书</label>
+                                                       
+                              <div class="col-sm-10">
+                                   <div id="queue"></div>
+                                <input id="file_upload3"  type="file" multiple="true">
+                                <div id="w_img3"><a href="{$list.sh_sslkey_path}">{$list.sh_sslkey_path}</a></div>
+                                <input type="hidden" id="w_img_input3" name="sh_sslkey_path" value="{$list.sh_sslkey_path}"/>
+                             </div>
+                            </div>
+
+
+  <div class="hr-line-dashed"></div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">布优partner</label>
+                            <div class="col-sm-10">
+                                <input name="buuyou_partner" value="{$list.buuyou_partner}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">布优key</label>
+                            <div class="col-sm-10">
+                                <input name="buuyou_key" value="{$list.buuyou_key}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                            </div>
+                        </div>
+    <div class="hr-line-dashed"></div>
+
+                            
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">猜大小游戏说明</label>
+                                   <div class="col-sm-10">
+
+                                    <script id="editor" type="text/plain" name="guess_rule" style="width:800px;height:500px;">
+                                    {$list.guess_rule}
+                                    </script>
+
+                                    </div>          
+                            </div> 
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">客服二维码</label>
+                                                    <div class="col-sm-10">
+                                                        <div id="queue"></div>
+                            <input id="file_upload"  type="file" multiple="true">
+                            <div id="w_img"><img src="{$list.kf_ewm}" style="width:120px;height:auto"/></div>
+                            <input type="hidden" id="w_img_input" name="kf_ewm" value="{$list.kf_ewm}"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">站点状态(1开启。2关闭)</label>
+                                                    <div class="col-sm-10">
+                                                        <input name="is_open" value="{$list.is_open}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">关闭说明</label>
+                                                    <div class="col-sm-10">
+                                                        <input name="site_remark" value="{$list.site_remark}" type="" class="form-control"> <span class="help-block m-b-none"></span>
+                                                    </div>
+                                                </div>
+                            <div class="hr-line-dashed"></div>
+                            
+                            
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit">保存内容</button>
+                                    <a class="btn btn-white" href="history.go(-1)">返回列表</a>  
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/static/admin/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/static/admin/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/admin/js/content.min.js?v=1.0.0"></script>
+    <script src="/static/admin/js/plugins/iCheck/icheck.min.js"></script>
+
+    <script>
+        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+    </script>
+ 
+    <script src="/static/admin/js/plugins/chosen/chosen.jquery.js"></script>
+
+
+
+    <script type="text/javascript" charset="utf-8" src="/static/ueditor/ueditor.config.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/static/ueditor/ueditor.all.min.js"> </script>
+     <script type="text/javascript" charset="utf-8" src="/static/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+
+
+<script src="/static/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>
+
+
+    <script src="/static/admin/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+     <script type="text/javascript">
+     $(function(){
+         var ue = UE.getEditor('editor');
+
+             ue.ready(function() {
+         // var w_t=$('#w_re').val();
+
+       });
+     })
+     </script>
+
+    <script type="text/javascript">
+
+    $(function(){
+            var config = {
+                ".chosen-select": {},
+                ".chosen-select-deselect": {
+                    allow_single_deselect: !0
+                },
+                ".chosen-select-no-single": {
+                    disable_search_threshold: 10
+                },
+                ".chosen-select-no-results": {
+                    no_results_text: "Oops, nothing found!"
+                },
+                ".chosen-select-width": {
+                    width: "95%"
+                }
+            };
+            for (var selector in config) $(selector).chosen(config[selector]);
+    })
+    </script>
+
+    <script type="text/javascript">
+
+    function del_pic(a){
+      console.log(a);
+      var p=$(a).prev().attr("src");
+      $(a).prev().remove();
+      $(a).remove();
+      var str=$("#w_img_input2").val();
+      
+      str=str.replace(p,"");
+      str=str.replace(',,',",");
+      $("#w_img_input2").val(str);
+    }
+        <?php $timestamp = time();?>
+        $(function() {
+            $('#file_upload').uploadify({
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+                },
+                'swf'      : '../../../static/uploadify/uploadify.swf',
+                'uploader' : '../../../static/uploadify/uploadify.php',
+                'onUploadSuccess':function(file, data, response){
+                    console.log(file)
+                    console.log(data)
+                    console.log(response)
+                    var img="<img style='width:120px;height:auto' src='"+data+"'/>"
+                    $("#w_img").html(img);
+                    $("#w_img_input").val(data);
+                }
+            });
+            $('#file_upload2').uploadify({
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+                },
+                'swf'      : '../../../static/uploadify/uploadify.swf',
+                'uploader' : '../../../static/uploadify/uploadify.php',
+                'onUploadSuccess':function(file, data, response){
+                    console.log(file)
+                    console.log(data)
+                    console.log(response)
+                    var img="<a href='"+data+"'> "+data+"<a/>";
+                    $("#w_img2").html(img);
+                    $("#w_img_input2").val(data);
+                }
+            });
+            $('#file_upload3').uploadify({
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+                },
+                'swf'      : '../../../static/uploadify/uploadify.swf',
+                'uploader' : '../../../static/uploadify/uploadify.php',
+                'onUploadSuccess':function(file, data, response){
+                    console.log(file)
+                    console.log(data)
+                    console.log(response)
+                    var img="<a href='"+data+"'> "+data+"<a/>"
+                    $("#w_img3").html(img);
+                    $("#w_img_input3").val(data);
+                }
+            });
+
+            $('#file_upload4').uploadify({
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+                },
+                'swf'      : '../../../static/uploadify/uploadify.swf',
+                'uploader' : '../../../static/uploadify/uploadify.php',
+                'onUploadSuccess':function(file, data, response){
+                    console.log(file)
+                    console.log(data)
+                    console.log(response)
+                    var img="<a href='"+data+"'> "+data+"<a/>"
+                    $("#w_img4").html(img);
+                    $("#w_img_input4").val(data);
+                }
+            });
+
+            $('#file_upload5').uploadify({
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
+                },
+                'swf'      : '../../../static/uploadify/uploadify.swf',
+                'uploader' : '../../../static/uploadify/uploadify.php',
+                'onUploadSuccess':function(file, data, response){
+                    console.log(file)
+                    console.log(data)
+                    console.log(response)
+                    var img="<a href='"+data+"'> "+data+"<a/>"
+                    $("#w_img5").html(img);
+                    $("#w_img_input5").val(data);
+                }
+            });
+
+
+
+        });
+    </script>
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+</html>

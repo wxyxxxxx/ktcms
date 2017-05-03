@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:18:23 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>XXX管理平台 - 登录</title>
+    <meta name="keywords" content="XXX管理平台 - 登录">
+    <meta name="description" content="XXX管理平台 - 登录">
+    {css  href="/static/admin/css/bootstrap.min14ed.css" /}
+    {css  href="/static/admin/css/font-awesome.min93e3.css" /}
+    {css  href="/static/admin/css/animate.min.css" /}
+    {css  href="/static/admin/css/style.min862f.css" /}
+    
+   
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <meta name="renderer" content="webkit">
+     <meta http-equiv="Cache-Control" content="no-siteapp" />
+       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">W+</h1>
+
+            </div>
+            <h3>欢迎使用 WXY</h3>
+
+            
+                <div class="form-group">
+                    <input type="text" id="account" class="form-control" placeholder="用户名" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="pwd" class="form-control" placeholder="密码" required="">
+                </div>
+                <button  id="w_sb" class="btn btn-primary block full-width m-b">登 录</button>
+
+
+              <!--   <p class="text-muted text-center"> <a href="login.html#"><small>忘记密码了？</small></a> | <a href="register.html">注册一个新账号</a>
+                </p> -->
+
+          
+        </div>
+    </div>
+    {js  href="/static/admin/js/jquery.min.js" /}
+    {js  href="/static/admin/js/bootstrap.js" /}
+    {js  href="/static/layer/layer.js" /}
+  
+</body>
+<script type="text/javascript">
+
+$(function(){
+   $("#w_sb").click(function(){
+        var account=$("#account").val();
+        var pwd=$("#pwd").val();
+        if (account=="") {layer.msg('账号不能为空',function(){});return false;}
+        if (account=="") {layer.msg('密码不能为空',function(){});return false;}
+        $.post("{:url('admin/login/do_login')}",{account:account,pwd:pwd},function(data){
+            if (data.code==1) {
+                location.href="{:url('admin/common/index')}";
+            }else{
+                layer.msg(data.msg,function(){});
+            }
+        })
+   }) 
+})
+
+</script>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:18:23 GMT -->
+</html>
